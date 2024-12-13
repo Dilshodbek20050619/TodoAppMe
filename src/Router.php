@@ -6,11 +6,11 @@ class Router
 
     public function __construct()
     {
-        // Joriy yo'nalishni olish
+
         $this->currentRoute = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     }
 
-    // Dinamik yo'nalishlarni ishlatish
+
     public function resolveRoute($route, $callback, $method): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== $method) {
@@ -26,37 +26,54 @@ class Router
             exit();
         }
     }
-
-    // GET so'rovi
-    public function getRoute($route, $callback): void
+    public function getResource($route)
     {
-        $this->resolveRoute($route, $callback, 'GET');
+        $resourseIndex=mb_stripos($route,'{id}');
+        if (!$resourseIndex) {
+            return false;
+        }
+        $resourceValue =substr($this->currentRoute, $resourseIndex);
+        if ($limit=mb_stripos($resourceValue,'/')) {
+            return substr($resourceValue, 0, $limit);
+        }
+        return $resourceValue ? : false;
     }
 
-    // POST so'rovi
+
+    public function getRoute($route, $callback): void
+    {
+        if($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $resourseValue=$this->getResource($route);
+            if ($resourseValue) {
+                $resourseRoute = str_replace('{id}',$resourseValue, $route);
+                if ($resourseRoute === $this->currentRoute) {
+                    $callback($resourseValue);
+                    exit();
+                }
+            }
+            if ($route === $this->currentRoute) {
+                $callback();
+                exit();
+            }
+        }
+    }
+
+
     public function postRoute($route, $callback): void
     {
 //        $this->resolveRoute($route, $callback, 'POST');
     }
-    // Router.php
+
     public function post($route, $callback)
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $resourceId =  $this->getResource();
+            $resourceId =  $this->getResource($route);
             $route = str_replace('{id}', $resourceId, $route);
             if ($route==$this->currentRoute){
                 $callback($resourceId);
                 exit();
             }
         }
-    }
-    public function getResource()
-    {
-        if (isset(explode("/", $this->currentRoute)[2])) {
-            $resourceId =  explode("/", $this->currentRoute)[2];
-            return $resourceId;
-        }
-        return false;
     }
 
     public function deleteRoute($route, $callback): void
