@@ -106,7 +106,6 @@
     </style>
 <div class="edit-form">
     <h1>Edit Task</h1>
-
     <form method="POST" action="/todos/<?= /** @var TYPE_NAME $task */
     $task['id'] ?>/edit">
         <!-- Title Input -->

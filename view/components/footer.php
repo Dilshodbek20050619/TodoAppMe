@@ -9,6 +9,7 @@
         background-color: #444444;
         padding-top: 15px;
         font-size: 13px;
+        color: white;
 
     }
 </style>

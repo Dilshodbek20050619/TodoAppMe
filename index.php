@@ -1,33 +1,5 @@
 <?php
 
-require 'helpers.php';
 require 'bootstrap.php';
 
-use App\Controller;
-use App\Router;
-
-$router = new Router();
-$controller = new Controller();
-
-$router->getRoute('/', [$controller, 'home']);
-$router->getRoute('/bot', [$controller, 'bot']);
-
-$router->post('/logout', [$controller, 'logout']);
-
-$router->getRoute('/register', [$controller, 'register']);
-$router->post('/register', [$controller, 'storeUser']);
-
-$router->getRoute('/login', [$controller, 'login']);
-$router->post('/login', [$controller, 'storeLogin']);
-
-$router->getRoute('/todos', [$controller, 'showTodos']);
-$router->post('/todos', [$controller, 'storeTodo']);
-
-$router->getRoute('/todos/{id}/delete', [$controller, 'deleteTodo']);
-
-$router->getRoute('/todos/{id}/edit', function ($id) use ($controller) {
-    $controller->updateTodoForm($id);
-});
-$router->post('/todos/{id}/edit', function ($id) use ($controller) {
-    $controller->updateTodoData($id);
-});
+require 'routes.php';

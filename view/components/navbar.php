@@ -6,12 +6,6 @@
         if (isset($_SESSION['user'])) :
             ?>
 
-            <form action="/logout" method="POST" class="d-inline">
-                <button type="submit" class="btn btn-danger">
-                    <i class="bi bi-box-arrow-right"></i> Logout
-                </button>
-            </form>
-
             <li class="dropdown">
                 <a href="/todos" data-bs-toggle="dropdown" aria-expanded="false">
                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
@@ -20,11 +14,16 @@
                         <path fill-rule="evenodd"
                               d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
                     </svg>
-                </a>
+                    Profil</a>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="/todos">To-do List</a></li>
                     <li><a class="dropdown-item" href="/todos"><?= $_SESSION['user']['full_name'] ?? '' ?></a></li>
                     <li><a class="dropdown-item" href="/todos"><?= $_SESSION['user']['email'] ?? '' ?></a></li>
+                    <form action="/logout" method="POST" class="d-inline">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </button>
+                    </form>
                 </ul>
             </li>
         <?php
@@ -71,11 +70,11 @@
     }
 
     .navbar-list li a:hover {
-        background-color: #555;
+        background-color: #17565e;
     }
 
     .navbar-list li a.active {
-        background-color: #444;
+        background-color: #17565e;
     }
 
     body {
@@ -91,5 +90,10 @@
     .dropdown-menu {
         background-color: #444444;
         color: white;
+        text-align: center;
+    }
+
+    .dropdown-menu .btn {
+        margin-top: 10px;
     }
 </style>
