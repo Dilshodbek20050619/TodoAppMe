@@ -1,5 +1,9 @@
 <?php require 'view/components/header.php'?>
 <?php require 'view/components/navbar.php'?>
+
+<?php
+
+?>
     <style>
         body {
             background: linear-gradient(135deg, #1f4037, #99f2c8);

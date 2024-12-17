@@ -57,4 +57,8 @@ class Router
     {
         return mb_stripos($this->currentRoute,'/api') === 0;
     }
+    public function isTelegramCall(): bool
+    {
+        return mb_stripos($this->currentRoute,'/telegram') === 0;
+    }
 }
