@@ -4,7 +4,6 @@ use App\Router;
 
 $router = new Router();
 $controller = new Controller();
-
 $router->getRoute('/', [$controller, 'home']);
 $router->getRoute('/bot', [$controller, 'bot']);
 
@@ -21,6 +20,7 @@ $router->postRoute('/todos', [$controller, 'storeTodo']);
 
 $router->getRoute('/todos/{id}/delete', function ($id) use ($controller){
     $controller->deleteTodo($id);
+    dd(3);
 });
 $router->getRoute('/todos/{id}/edit', function ($id) use ($controller) {
     $controller->updateTodoForm($id);

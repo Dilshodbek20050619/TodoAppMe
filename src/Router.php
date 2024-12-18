@@ -25,40 +25,50 @@ class Router
 
     public function getRoute($route, $callback): void
     {
-        var_dump(123);
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-            $resourceValues = $this->getResource($route);
-            if ($resourceValues) {
-                $callback($resourceValues);
-                exit();
-            }
-            if ($route == $this->currentRoute) {
-                $callback($resourceValues);
-                exit();
-            }
+            $this->Rendor($route, $callback);
+        }
+    }
+    public function putRoute($route, $callback): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
+            $this->Rendor($route, $callback);
+        }
+    }
+    public function delete($route, $callback): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
+            $this->Rendor($route, $callback);
         }
     }
 
     public function postRoute($route, $callback): void
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $resourceValues = $this->getResource($route);
-            if ($resourceValues) {
-                $callback($resourceValues);
-                exit();
-            }
-            if ($route == $this->currentRoute) {
-                $callback();
-                exit();
-            }
+            $this->Rendor($route, $callback);
         }
     }
     public function isApiCall(): bool
     {
         return mb_stripos($this->currentRoute,'/api') === 0;
     }
-    public function isTelegramCall(): bool
+    public function isTelegram():bool
     {
         return mb_stripos($this->currentRoute,'/telegram') === 0;
+    }
+    public function Rendor($route, $callback): void
+    {
+        $resourceValues = $this->getResource($route);
+        if ($resourceValues) {
+            $resourceRout = str_replace('{id}', $resourceValues, $route);
+            if ($resourceRout == $this->currentRoute) {
+                $callback($resourceValues);
+                exit();
+            }
+        }
+        if ($route == $this->currentRoute) {
+            $callback($resourceValues);
+            exit();
+        }
     }
 }
