@@ -8,7 +8,7 @@ $router = new Router();
 if($router->isApiCall()){
     require 'routers/api.php';
     exit();
-}elseif ($router->isTelegramCall()){
+}elseif ($router->isTelegram()){
     require 'routers/telegram.php';
     exit();
 }
