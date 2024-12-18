@@ -9,13 +9,14 @@ class User
 {
     public $pdo;
 
-    public function __construct(){
+    public function __construct()
+    {
         $db = new DB();
         $this->pdo = $db->conn;
     }
 
-    // Emailni tekshirish metodi
-    public function isEmailExist(string $email): bool {
+    public function isEmailExist(string $email): bool
+    {
         $query = 'SELECT COUNT(*) FROM users WHERE email = :email';
         $stmt = $this->pdo->prepare($query);
         $stmt->execute([':email' => $email]);
@@ -23,7 +24,8 @@ class User
     }
 
     // Ro'yxatdan o'tish metodi
-    public function register(string $fullName, string $email, string $password):mixed {
+    public function register(string $fullName, string $email, string $password): mixed
+    {
         if ($this->isEmailExist($email)) {
             echo "Bu email allaqachon ro'yxatdan o'tgan!";
             return false;
@@ -39,14 +41,17 @@ class User
         $id = $this->pdo->lastInsertId();
         return $this->getUserById($id);
     }
-    public function getUserById(int $id): array{
+
+    public function getUserById(int $id): array
+    {
         $query = 'SELECT * FROM users WHERE id = :id';
         $stmt = $this->pdo->prepare($query);
         $stmt->execute([':id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function login(string $email, string $password): bool|array {
+    public function login(string $email, string $password): bool|array
+    {
         try {
             $query = 'SELECT * FROM users WHERE email = :email';
             $stmt = $this->pdo->prepare($query);
@@ -63,6 +68,49 @@ class User
             return false;
         }
     }
+//    public function setTelegramId(int $userId, int $chatId): bool
+//    {
+//        $query = 'UPDATE users SET telegram_id = 2143124 WHERE id = 4';
+//        $stmt = $this->pdo->prepare($query);
+//        $stmt->execute([
+//            ':chatId' => $chatId,
+//            ':userId' => $userId
+//        ]);
+//
+//        // Yangilangan qatorlarni tekshiramiz
+//        return $stmt->rowCount() > 0;
+//    }
+    public function setTelegramId(int $userId, int $chatId): void
+    {
+        // SQL so'rovni aniq yozamiz
+        $query = 'UPDATE users SET telegram_id = :chatId WHERE id = :userId';
 
+        // PDO tayyorlangan so'rovni yaratamiz
+        $stmt = $this->pdo->prepare($query);
+
+        // Parametrlarni aniq bog'laymiz
+        $stmt->execute([
+            ':chatId' => $chatId,   // SQL so'rovdagi :chatId parametri uchun qiymat
+            ':userId' => $userId    // SQL so'rovdagi :userId parametri uchun qiymat
+        ]);
+    }
+
+    public function getTasksByChatId(int $chatId): array
+    {
+        try {
+            $query = '
+            SELECT t.* 
+            FROM todo t
+            INNER JOIN users u ON t.user_id = u.id
+            WHERE u.telegram_id = :chatId
+        ';
+            $stmt = $this->pdo->prepare($query);
+            $stmt->execute([':chatId' => $chatId]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log('Database Error: ' . $e->getMessage());
+            return [];
+        }
+    }
 
 }

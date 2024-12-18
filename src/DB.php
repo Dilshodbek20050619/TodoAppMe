@@ -8,6 +8,7 @@ class DB
     public $pass;
     public $db_name;
     public $conn;
+
     public function __construct()
     {
         $this->host = $_ENV['DB_HOST'];

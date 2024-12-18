@@ -1,11 +1,11 @@
 <?php
+
 use App\Controller;
 use App\Router;
 
 $router = new Router();
 $controller = new Controller();
 $router->getRoute('/', [$controller, 'home']);
-$router->getRoute('/bot', [$controller, 'bot']);
 
 $router->postRoute('/logout', [$controller, 'logout']);
 
@@ -18,7 +18,7 @@ $router->postRoute('/login', [$controller, 'storeLogin']);
 $router->getRoute('/todos', [$controller, 'showTodos']);
 $router->postRoute('/todos', [$controller, 'storeTodo']);
 
-$router->getRoute('/todos/{id}/delete', function ($id) use ($controller){
+$router->getRoute('/todos/{id}/delete', function ($id) use ($controller) {
     $controller->deleteTodo($id);
     dd(3);
 });

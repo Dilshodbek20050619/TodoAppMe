@@ -1,5 +1,5 @@
-<?php require 'view/components/header.php'?>
-<?php require 'view/components/navbar.php'?>
+<?php require 'view/components/header.php' ?>
+<?php require 'view/components/navbar.php' ?>
     <style>
         body {
             background: linear-gradient(135deg, #1f4037, #99f2c8);
@@ -68,8 +68,8 @@
             color: #721c24;
         }
     </style>
-</head>
-<body>
+    </head>
+    <body>
 <div class="container mt-5">
     <div class="row d-flex justify-content-center">
         <div class="todo-body">
@@ -92,7 +92,8 @@
                     </select>
                 </div>
 
-                <button type="submit" class="custom-button btn btn-success w-100" style="margin-bottom: 15px;">Add</button>
+                <button type="submit" class="custom-button btn btn-success w-100" style="margin-bottom: 15px;">Add
+                </button>
                 <form method="POST" action="/todos" class="mb-4">
 
                     <ul class="list-group">
@@ -119,4 +120,4 @@
         </div>
     </div>
 </div>
-<?php require 'components/footer.php'?>
+<?php require 'components/footer.php' ?>

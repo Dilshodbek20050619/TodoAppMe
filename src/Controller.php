@@ -26,10 +26,6 @@ class Controller
         view('register');
     }
 
-    public function bot()
-    {
-        require 'app/bot.php';
-    }
 
     public function showTodos()
     {
@@ -62,7 +58,7 @@ class Controller
     {
 
         if (!$_SESSION['user']) {
-           redirect('/login');
+            redirect('/login');
         }
         if (isset($_POST['title'], $_POST['due_date'], $_POST['status'])) {
 
@@ -80,6 +76,7 @@ class Controller
         redirect('/todos');
         exit();
     }
+
     public function storeUser(): mixed
     {
         if (!empty($_POST['full_name']) && !empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['repeat_password'])) {

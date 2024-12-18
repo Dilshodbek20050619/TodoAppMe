@@ -36,7 +36,7 @@ class Todo
 
     public function delete($id)
     {
-        $id = (int) $id;
+        $id = (int)$id;
         $stmt = $this->db->conn->prepare("DELETE FROM todo WHERE id = :id");
         $stmt->execute([
             'id' => $id
@@ -47,7 +47,7 @@ class Todo
 
     public function getById($id)
     {
-        $id = (int) $id;
+        $id = (int)$id;
         $stmt = $this->db->conn->prepare("SELECT * FROM todo WHERE id = :id LIMIT 1");
         $stmt->execute(['id' => $id]);
         return $stmt->fetch(PDO::FETCH_ASSOC);

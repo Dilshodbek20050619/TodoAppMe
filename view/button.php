@@ -1,9 +1,5 @@
-<?php require 'view/components/header.php'?>
-<?php require 'view/components/navbar.php'?>
-
-<?php
-
-?>
+<?php require 'view/components/header.php' ?>
+<?php require 'view/components/navbar.php' ?>
     <style>
         body {
             background: linear-gradient(135deg, #1f4037, #99f2c8);
@@ -56,6 +52,6 @@
             left: 100%;
         }
     </style>
-<a href="/todos" class="custom-button-but">Go to Todo</a>
-<a href="/bot" class="custom-button-but">Telegram</a>
-<?php require 'view/components/footer.php'?>
+    <a href="/todos" class="custom-button-but">Go to Todo</a>
+    <a href="/telegram" class="custom-button-but">Telegram</a>
+<?php require 'view/components/footer.php' ?>

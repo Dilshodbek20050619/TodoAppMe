@@ -2,20 +2,25 @@
 
 namespace App;
 
-use Dotenv\Dotenv;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 
 class Bot
 {
-    private $client;
+    private Client $client;
 
     public function __construct()
     {
         $this->client = new Client([
-            'base_uri' => 'https://api.telegram.org/'.  $_ENV['TELEGRAM_TOKEN'] . "/"
+            'base_uri' => "https://api.telegram.org/bot" . $_ENV['TELEGRAM_TOKEN'] . "/"
         ]);
     }
-    public function makeRequest (string $method, array $params) {
+
+    /**
+     * @throws GuzzleException
+     */
+    public function makeRequest(string $method, array $params): void
+    {
         $this->client->post($method, ['json' => $params]);
     }
 }

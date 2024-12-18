@@ -9,6 +9,7 @@ class Router
     {
         $this->currentRoute = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     }
+
     public function getResource($route): false|string
     {
         $resourceIndex = mb_stripos($route, '{id}');
@@ -29,12 +30,14 @@ class Router
             $this->Rendor($route, $callback);
         }
     }
+
     public function putRoute($route, $callback): void
     {
         if ($_SERVER['REQUEST_METHOD'] == 'PUT') {
             $this->Rendor($route, $callback);
         }
     }
+
     public function delete($route, $callback): void
     {
         if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
@@ -48,14 +51,17 @@ class Router
             $this->Rendor($route, $callback);
         }
     }
+
     public function isApiCall(): bool
     {
-        return mb_stripos($this->currentRoute,'/api') === 0;
+        return mb_stripos($this->currentRoute, '/api') === 0;
     }
-    public function isTelegram():bool
+
+    public function isTelegram(): bool
     {
-        return mb_stripos($this->currentRoute,'/telegram') === 0;
+        return mb_stripos($this->currentRoute, '/telegram') === 0;
     }
+
     public function Rendor($route, $callback): void
     {
         $resourceValues = $this->getResource($route);

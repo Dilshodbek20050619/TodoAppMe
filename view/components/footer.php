@@ -1,7 +1,7 @@
 <style>
     footer {
         width: 100%;
-        position: fixed ;
+        position: fixed;
         bottom: 0;
         left: 0;
         right: 0;
@@ -14,7 +14,7 @@
     }
 </style>
 <div class="footer">
-    <footer >
+    <footer>
         <p>&copy; 2025 Todo App <br> Bu yerda sizning reklamangiz bolishi mumkin edi</p>
     </footer>
 </div>

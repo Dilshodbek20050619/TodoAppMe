@@ -1,5 +1,5 @@
-<?php require 'view/components/header.php'?>
-<?php require 'view/components/navbar.php'?>
+<?php require 'view/components/header.php' ?>
+<?php require 'view/components/navbar.php' ?>
     <style>
         body {
             background: linear-gradient(135deg, #1f4037, #99f2c8);
@@ -99,42 +99,46 @@
             box-shadow: 0 12px 20px rgba(204, 81, 81, 0.6);
             transform: translateY(3px);
         }
+
         .form-label {
             color: black;
         }
 
     </style>
-<div class="edit-form">
-    <h1>Edit Task</h1>
-    <form method="POST" action="/todos/<?= /** @var TYPE_NAME $task */
-    $task['id'] ?>/edit">
-        <!-- Title Input -->
-        <div class="form-input">
-            <label for="title" class="form-label">Task Title</label>
-            <input type="text" name="title" id="title" value="<?= htmlspecialchars($task['title']) ?>" required>
-        </div>
+    <div class="edit-form">
+        <h1>Edit Task</h1>
+        <form method="POST" action="/todos/<?= /** @var TYPE_NAME $task */
+        $task['id'] ?>/edit">
+            <!-- Title Input -->
+            <div class="form-input">
+                <label for="title" class="form-label">Task Title</label>
+                <input type="text" name="title" id="title" value="<?= htmlspecialchars($task['title']) ?>" required>
+            </div>
 
-        <!-- Due Date Input -->
-        <div class="form-input">
-            <label for="due_date" class="form-label">Due Date</label>
-            <input type="datetime-local" name="due_date" id="due_date" value="<?= date('Y-m-d\TH:i', strtotime($task['due_date'])) ?>" required>
-        </div>
+            <!-- Due Date Input -->
+            <div class="form-input">
+                <label for="due_date" class="form-label">Due Date</label>
+                <input type="datetime-local" name="due_date" id="due_date"
+                       value="<?= date('Y-m-d\TH:i', strtotime($task['due_date'])) ?>" required>
+            </div>
 
-        <!-- Status Input -->
-        <div class="form-input">
-            <label for="status" class="form-label">Status</label>
-            <select name="status" id="status" required>
-                <option value="pending" <?= $task['status'] === 'pending' ? 'selected' : '' ?>>Pending</option>
-                <option value="in_progress" <?= $task['status'] === 'in_progress' ? 'selected' : '' ?>>In Progress</option>
-                <option value="completed" <?= $task['status'] === 'completed' ? 'selected' : '' ?>>Completed</option>
-            </select>
-        </div>
+            <!-- Status Input -->
+            <div class="form-input">
+                <label for="status" class="form-label">Status</label>
+                <select name="status" id="status" required>
+                    <option value="pending" <?= $task['status'] === 'pending' ? 'selected' : '' ?>>Pending</option>
+                    <option value="in_progress" <?= $task['status'] === 'in_progress' ? 'selected' : '' ?>>In Progress
+                    </option>
+                    <option value="completed" <?= $task['status'] === 'completed' ? 'selected' : '' ?>>Completed
+                    </option>
+                </select>
+            </div>
 
-        <!-- Update Button -->
-        <button type="submit" class="custom-button">Update Task</button>
+            <!-- Update Button -->
+            <button type="submit" class="custom-button">Update Task</button>
 
-        <!-- Cancel Button -->
-        <a href="/todos" class="btn-cancel">Cancel</a>
-    </form>
-</div>
-<?php require 'view/components/footer.php'?>
+            <!-- Cancel Button -->
+            <a href="/todos" class="btn-cancel">Cancel</a>
+        </form>
+    </div>
+<?php require 'view/components/footer.php' ?>

@@ -8,13 +8,15 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <?php if (!empty($_SESSION['success_message'])): ?>
         <div class="alert alert-success text-center">
-            <?= $_SESSION['success_message']; unset($_SESSION['success_message']); ?>
+            <?= $_SESSION['success_message'];
+            unset($_SESSION['success_message']); ?>
         </div>
     <?php endif; ?>
 
     <?php if (!empty($_SESSION['error_message'])): ?>
     <div class="alert alert-danger text-center">
-        <?= $_SESSION['error_message']; unset($_SESSION['error_message']); ?>
+        <?= $_SESSION['error_message'];
+        unset($_SESSION['error_message']); ?>
     </div>
 <?php endif; ?>
 
