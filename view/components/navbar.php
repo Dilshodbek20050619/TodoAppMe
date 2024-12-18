@@ -19,6 +19,7 @@
                     <li><a class="dropdown-item" href="/todos">To-do List</a></li>
                     <li><a class="dropdown-item" href="/todos"><?= $_SESSION['user']['full_name'] ?? '' ?></a></li>
                     <li><a class="dropdown-item" href="/todos"><?= $_SESSION['user']['email'] ?? '' ?></a></li>
+                    <li><a class="dropdown-item text-primary" href="https://t.me/Dilshodbek_todoapp_bot?start=<?= $_SESSION['user']['id']?>" target="_blank">Sync With Telegram</a></li>
                     <form action="/logout" method="POST" class="d-inline">
                         <button type="submit" class="btn btn-danger">
                             <i class="bi bi-box-arrow-right"></i> Logout
