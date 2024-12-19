@@ -82,19 +82,52 @@ if ($text === '/tasks') {
         if (empty($tasks)) {
             $bot->makeRequest('sendMessage', [
                 'chat_id' => $chatId,
-                'text' => 'No tasks found!'
+                'text' => 'Tasks not found!'
             ]);
         } else {
             $taskList = "Your Tasks:\n";
             $i = 1;
             foreach ($tasks as $task) {
-                $taskList .= "$i - " . $task['title'] . "       " . $task['status'] . "        " . $task['due_date'] . "\n\n";
+                $taskList .= "$i. " . $task['title'] . "    
+                " . $task['status'] . "    
+                " . $task['due_date'] . "\n\n" . "=======================" . "\n\n";
                 $i++;
             }
+
             $bot->makeRequest('sendMessage', [
                 'chat_id' => $chatId,
                 'text' => $taskList
             ]);
+
+            $token =$_ENV['TELEGRAM_TOKEN'];
+            $chat_id = $chatId;
+
+            $keyboard = [
+                'keyboard' => [
+                    [
+                        ['text' => 'Tugma 1'],
+                        ['text' => 'Tugma 2']
+                    ],
+                    [
+                        ['text' => 'Tugma 3'],
+                        ['text' => 'Tugma 4']
+                    ]
+                ],
+                'resize_keyboard' => true,
+                'one_time_keyboard' => true
+            ];
+
+            $replyMarkup = json_encode($keyboard);
+
+            $data = [
+                'chat_id' => $chat_id,
+                'text' => $i,
+                'reply_markup' => $replyMarkup
+            ];
+
+            file_get_contents("https://api.telegram.org/bot7555916728:AAFd7iPnQi9XZe9R0Ncj7dDnABlfcoPD97w/sendMessage?" . http_build_query($data));
+
+
         }
     } catch (Exception $e) {
         $bot->makeRequest('sendMessage', [
@@ -160,32 +193,4 @@ if ($text == '/help') {
         'text' => "Show task -> /tasks \n"
     ]);
     exit();
-}
-if ($text === '/tasks') {
-    try {
-        $tasks = $user->getTasksByChatId($chatId);
-
-        if (empty($tasks)) {
-            $bot->makeRequest('sendMessage', [
-                'chat_id' => $chatId,
-                'text' => 'No tasks found!'
-            ]);
-        } else {
-            $taskList = "Your Tasks:\n";
-            $i = 1;
-            foreach ($tasks as $task) {
-                $taskList .= "$i - " . $task['title'] . "       " . $task['status'] . "        " . $task['due_date'] . "\n\n";
-                $i++;
-            }
-            $bot->makeRequest('sendMessage', [
-                'chat_id' => $chatId,
-                'text' => $taskList
-            ]);
-        }
-    } catch (Exception $e) {
-        $bot->makeRequest('sendMessage', [
-            'chat_id' => $chatId,
-            'text' => 'An error occurred while fetching your tasks: ' . $e->getMessage()
-        ]);
-    }
 }
