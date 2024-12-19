@@ -23,7 +23,7 @@ class User
         return $stmt->fetchColumn() > 0; // Agar email mavjud bo'lsa, true qaytaradi
     }
 
-    // Ro'yxatdan o'tish metodi
+
     public function register(string $fullName, string $email, string $password): mixed
     {
         if ($this->isEmailExist($email)) {
@@ -68,30 +68,16 @@ class User
             return false;
         }
     }
-//    public function setTelegramId(int $userId, int $chatId): bool
-//    {
-//        $query = 'UPDATE users SET telegram_id = 2143124 WHERE id = 4';
-//        $stmt = $this->pdo->prepare($query);
-//        $stmt->execute([
-//            ':chatId' => $chatId,
-//            ':userId' => $userId
-//        ]);
 //
-//        // Yangilangan qatorlarni tekshiramiz
-//        return $stmt->rowCount() > 0;
-//    }
     public function setTelegramId(int $userId, int $chatId): void
     {
-        // SQL so'rovni aniq yozamiz
         $query = 'UPDATE users SET telegram_id = :chatId WHERE id = :userId';
 
-        // PDO tayyorlangan so'rovni yaratamiz
         $stmt = $this->pdo->prepare($query);
 
-        // Parametrlarni aniq bog'laymiz
         $stmt->execute([
-            ':chatId' => $chatId,   // SQL so'rovdagi :chatId parametri uchun qiymat
-            ':userId' => $userId    // SQL so'rovdagi :userId parametri uchun qiymat
+            ':chatId' => $chatId,
+            ':userId' => $userId
         ]);
     }
 
