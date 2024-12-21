@@ -4,16 +4,39 @@ namespace App;
 
 use \PDO;
 use PDOException;
+use Redis;
 
 class Todo
 {
+    private $redis;
     private $db;
     private $pdo;
 
     public function __construct()
     {
+        $this->redis = new Redis();
+        $this->redis->connect('127.0.0.1', 6379);
         $this->db = new DB();
         $this->pdo = $this->db->conn;
+    }
+
+    public function setPendingEditTask($chatId, $taskId): void
+    {
+        $this->redis->set("pending_edit_task:$chatId", $taskId);
+    }
+
+    public function hasPendingEditTask($chatId): bool|int|Redis
+    {
+        return $this->redis->exists("pending_edit_task:$chatId");
+    }
+
+    public function getPendingEditTaskId($chatId) {
+        return $this->redis->get("pending_edit_task:$chatId");
+    }
+
+    public function clearPendingEditTask($chatId): void
+    {
+        $this->redis->del("pending_edit_task:$chatId");
     }
 
     public function get(int $user_id)
@@ -71,6 +94,7 @@ class Todo
             'status' => $status]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
     public function getTasksByChatId(int $chatId): array
     {
         try {
@@ -88,6 +112,7 @@ class Todo
             return [];
         }
     }
+
     public function setTelegramId(int $userId, int $chatId): void
     {
         $query = 'UPDATE users SET telegram_id = :chatId WHERE id = :userId';
@@ -97,6 +122,7 @@ class Todo
             ':userId' => $userId
         ]);
     }
+
     public function updateTaskStatus(int $taskId, string $newStatus): bool
     {
         try {
@@ -114,6 +140,7 @@ class Todo
             return false;
         }
     }
+
     public function getTaskById(int $taskId): ?array
     {
         $query = 'SELECT * FROM todo WHERE id = :taskId';
@@ -122,5 +149,28 @@ class Todo
         return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
     }
 
+    public function updateTaskTitle($taskId, $newTitle): bool
+    {
+        try {
+            $query = "UPDATE todo SET title = :newTitle WHERE id = :taskId";
+            $stmt = $this->pdo->prepare($query);
+
+            // bindValue ishlatish - faqat bir marta qiymatni bog'laydi
+            $stmt->bindValue(':newTitle', $newTitle);
+            $stmt->bindValue(':taskId', $taskId, PDO::PARAM_INT);
+
+            // So'rovni bajarish
+            if ($stmt->execute()) {
+                return true;
+            } else {
+                error_log("Failed to update task title, no rows affected.");
+                return false;
+            }
+        } catch (PDOException $e) {
+            // Xatolikni loglash
+            error_log("Failed to update task title: " . $e->getMessage());
+            return false;
+        }
+    }
 
 }
