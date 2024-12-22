@@ -23,7 +23,7 @@ class User
         return $stmt->fetchColumn() > 0; // Agar email mavjud bo'lsa, true qaytaradi
     }
 
-
+    // Ro'yxatdan o'tish metodi
     public function register(string $fullName, string $email, string $password): mixed
     {
         if ($this->isEmailExist($email)) {
@@ -68,35 +68,4 @@ class User
             return false;
         }
     }
-//
-    public function setTelegramId(int $userId, int $chatId): void
-    {
-        $query = 'UPDATE users SET telegram_id = :chatId WHERE id = :userId';
-
-        $stmt = $this->pdo->prepare($query);
-
-        $stmt->execute([
-            ':chatId' => $chatId,
-            ':userId' => $userId
-        ]);
-    }
-
-    public function getTasksByChatId(int $chatId): array
-    {
-        try {
-            $query = '
-            SELECT t.* 
-            FROM todo t
-            INNER JOIN users u ON t.user_id = u.id
-            WHERE u.telegram_id = :chatId
-        ';
-            $stmt = $this->pdo->prepare($query);
-            $stmt->execute([':chatId' => $chatId]);
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            error_log('Database Error: ' . $e->getMessage());
-            return [];
-        }
-    }
-
 }

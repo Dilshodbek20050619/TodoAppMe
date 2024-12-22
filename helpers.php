@@ -21,3 +21,5 @@ function redirect($page): void
     echo json_encode($data);
     exit;
 }
+
+//

@@ -23,4 +23,5 @@ class Bot
     {
         $this->client->post($method, ['json' => $params]);
     }
+
 }
